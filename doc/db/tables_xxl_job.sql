@@ -2,7 +2,7 @@
 # XXL-JOB
 # Copyright (c) 2015-present, xuxueli.
 
-CREATE database if NOT EXISTS `xxl_job` default character set utf8mb4 collate utf8mb4_unicode_ci;
+CREATE database if NOT EXISTS `xxl_job` default character set utf8mb4 collate utf8mb4_general_ci;
 use `xxl_job`;
 
 SET NAMES utf8mb4;
@@ -14,6 +14,7 @@ CREATE TABLE `xxl_job_info`
     `job_desc`                  varchar(255) NOT NULL,
     `add_time`                  datetime              DEFAULT NULL,
     `update_time`               datetime              DEFAULT NULL,
+    `module`                    varchar(16) NOT NULL  COMMENT '所属模块' ,
     `author`                    varchar(64)           DEFAULT NULL COMMENT '作者',
     `alarm_email`               varchar(255)          DEFAULT NULL COMMENT '报警邮件',
     `schedule_type`             varchar(50)  NOT NULL DEFAULT 'NONE' COMMENT '调度类型',
@@ -21,7 +22,7 @@ CREATE TABLE `xxl_job_info`
     `misfire_strategy`          varchar(50)  NOT NULL DEFAULT 'DO_NOTHING' COMMENT '调度过期策略',
     `executor_route_strategy`   varchar(50)           DEFAULT NULL COMMENT '执行器路由策略',
     `executor_handler`          varchar(255)          DEFAULT NULL COMMENT '执行器任务handler',
-    `executor_param`            varchar(512)          DEFAULT NULL COMMENT '执行器任务参数',
+    `executor_param`            varchar(1024)         DEFAULT NULL COMMENT '执行器任务参数',
     `executor_block_strategy`   varchar(50)           DEFAULT NULL COMMENT '阻塞处理策略',
     `executor_timeout`          int(11)      NOT NULL DEFAULT '0' COMMENT '任务执行超时时间，单位秒',
     `executor_fail_retry_count` int(11)      NOT NULL DEFAULT '0' COMMENT '失败重试次数',
@@ -35,7 +36,7 @@ CREATE TABLE `xxl_job_info`
     `trigger_next_time`         bigint(13)   NOT NULL DEFAULT '0' COMMENT '下次调度时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci ;
 
 CREATE TABLE `xxl_job_log`
 (
@@ -44,7 +45,7 @@ CREATE TABLE `xxl_job_log`
     `job_id`                    int(11)    NOT NULL COMMENT '任务，主键ID',
     `executor_address`          varchar(255)        DEFAULT NULL COMMENT '执行器地址，本次执行的地址',
     `executor_handler`          varchar(255)        DEFAULT NULL COMMENT '执行器任务handler',
-    `executor_param`            varchar(512)        DEFAULT NULL COMMENT '执行器任务参数',
+    `executor_param`            varchar(1024)        DEFAULT NULL COMMENT '执行器任务参数',
     `executor_sharding_param`   varchar(20)         DEFAULT NULL COMMENT '执行器任务分片参数，格式如 1/2',
     `executor_fail_retry_count` int(11)    NOT NULL DEFAULT '0' COMMENT '失败重试次数',
     `trigger_time`              datetime            DEFAULT NULL COMMENT '调度-时间',
@@ -60,7 +61,7 @@ CREATE TABLE `xxl_job_log`
     KEY `I_jobid_jobgroup` (`job_id`,`job_group`),
     KEY `I_job_id` (`job_id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_log_report`
 (
@@ -73,7 +74,7 @@ CREATE TABLE `xxl_job_log_report`
     PRIMARY KEY (`id`),
     UNIQUE KEY `i_trigger_day` (`trigger_day`) USING BTREE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_logglue`
 (
@@ -86,7 +87,7 @@ CREATE TABLE `xxl_job_logglue`
     `update_time` datetime    DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_registry`
 (
@@ -98,7 +99,7 @@ CREATE TABLE `xxl_job_registry`
     PRIMARY KEY (`id`),
     UNIQUE KEY `i_g_k_v` (`registry_group`, `registry_key`, `registry_value`) USING BTREE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_group`
 (
@@ -110,7 +111,7 @@ CREATE TABLE `xxl_job_group`
     `update_time`  datetime             DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_user`
 (
@@ -122,14 +123,14 @@ CREATE TABLE `xxl_job_user`
     PRIMARY KEY (`id`),
     UNIQUE KEY `i_username` (`username`) USING BTREE
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 CREATE TABLE `xxl_job_lock`
 (
     `lock_name` varchar(50) NOT NULL COMMENT '锁名称',
     PRIMARY KEY (`lock_name`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4;
+  DEFAULT CHARSET = utf8mb4 collate = utf8mb4_general_ci;
 
 
 ## —————————————————————— init data ——————————————————
@@ -137,12 +138,12 @@ CREATE TABLE `xxl_job_lock`
 INSERT INTO `xxl_job_group`(`id`, `app_name`, `title`, `address_type`, `address_list`, `update_time`)
 VALUES (1, 'xxl-job-executor-sample', '示例执行器', 0, NULL, '2018-11-03 22:21:31');
 
-INSERT INTO `xxl_job_info`(`id`, `job_group`, `job_desc`, `add_time`, `update_time`, `author`, `alarm_email`,
+INSERT INTO `xxl_job_info`(`id`, `job_group`, `job_desc`, `add_time`, `update_time`, `module`, `author`, `alarm_email`,
                            `schedule_type`, `schedule_conf`, `misfire_strategy`, `executor_route_strategy`,
                            `executor_handler`, `executor_param`, `executor_block_strategy`, `executor_timeout`,
                            `executor_fail_retry_count`, `glue_type`, `glue_source`, `glue_remark`, `glue_updatetime`,
                            `child_jobid`)
-VALUES (1, 1, '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'XXL', '', 'CRON', '0 0 0 * * ? *',
+VALUES (1, 1, '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'admin','XXL', '', 'CRON', '0 0 0 * * ? *',
         'DO_NOTHING', 'FIRST', 'demoJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化',
         '2018-11-03 22:21:31', '');
 
