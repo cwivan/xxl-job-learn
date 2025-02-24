@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.xuxueli</groupId>
 		<artifactId>xxl-job</artifactId>
-		<version>3.0.1-SNAPSHOT</version>
+		<version>3.0.1.local</version>
 	</parent>
 	<artifactId>xxl-job-admin</artifactId>
 	<packaging>jar</packaging>
@@ -77,6 +77,18 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 
+		<!--orange 核心模块 -->
+		<dependency>
+			<groupId>cn.orange.tech</groupId>
+			<artifactId>orange-common-core</artifactId>
+			<version>${orange.version}</version>
+		</dependency>
+		<!--orange json模块 -->
+		<dependency>
+			<groupId>cn.orange.tech</groupId>
+			<artifactId>orange-common-json</artifactId>
+			<version>${orange.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

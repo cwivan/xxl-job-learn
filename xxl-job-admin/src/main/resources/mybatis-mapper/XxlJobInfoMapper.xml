@@ -114,6 +114,7 @@
 	<insert id="save" parameterType="com.xxl.job.admin.core.model.XxlJobInfo" useGeneratedKeys="true" keyProperty="id" >
 		INSERT INTO xxl_job_info (
 			job_group,
+			module,
 			job_desc,
 			add_time,
 			update_time,
@@ -138,6 +139,7 @@
 			trigger_next_time
 		) VALUES (
 			#{jobGroup},
+			#{module},
 			#{jobDesc},
 			#{addTime},
 			#{updateTime},

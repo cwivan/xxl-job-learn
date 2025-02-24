@@ -10,7 +10,8 @@ import java.util.Date;
 public class XxlJobInfo {
 	
 	private int id;				// 主键ID
-	
+
+	private String module;
 	private int jobGroup;		// 执行器主键ID
 	private String jobDesc;
 	
@@ -49,6 +50,14 @@ public class XxlJobInfo {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 
 	public int getJobGroup() {
