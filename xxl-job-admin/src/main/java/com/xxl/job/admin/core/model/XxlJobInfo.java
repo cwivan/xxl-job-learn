@@ -1,5 +1,7 @@
 package com.xxl.job.admin.core.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -14,8 +16,9 @@ public class XxlJobInfo {
 	private String module;
 	private int jobGroup;		// 执行器主键ID
 	private String jobDesc;
-	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date addTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date updateTime;
 	
 	private String author;		// 负责人
@@ -35,6 +38,7 @@ public class XxlJobInfo {
 	private String glueType;		// GLUE类型	#com.xxl.job.core.glue.GlueTypeEnum
 	private String glueSource;		// GLUE源代码
 	private String glueRemark;		// GLUE备注
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date glueUpdatetime;	// GLUE更新时间
 
 	private String childJobId;		// 子任务ID，多个逗号分隔
