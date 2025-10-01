@@ -55,19 +55,21 @@ public class XxlJobContext {
      */
     private int handleCode;
 
+    private String workflowId;
+
     /**
      * handleMsg：The simple log msg of job execution
      */
     private String handleMsg;
 
 
-    public XxlJobContext(long jobId, String jobParam, String jobLogFileName, int shardIndex, int shardTotal) {
+    public XxlJobContext(long jobId, String jobParam, String jobLogFileName, String workflowId, int shardIndex, int shardTotal) {
         this.jobId = jobId;
         this.jobParam = jobParam;
         this.jobLogFileName = jobLogFileName;
         this.shardIndex = shardIndex;
         this.shardTotal = shardTotal;
-
+        this.workflowId = workflowId;
         this.handleCode = HANDLE_CODE_SUCCESS;  // default success
     }
 
@@ -105,6 +107,14 @@ public class XxlJobContext {
 
     public String getHandleMsg() {
         return handleMsg;
+    }
+
+    public String getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
     }
 
     // ---------------------- tool ----------------------

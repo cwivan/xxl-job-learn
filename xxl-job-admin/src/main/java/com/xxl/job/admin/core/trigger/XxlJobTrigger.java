@@ -46,6 +46,7 @@ public class XxlJobTrigger {
                                int failRetryCount,
                                String executorShardingParam,
                                String executorParam,
+                               String workflowId,
                                String addressList) {
 
         // load data
@@ -80,13 +81,13 @@ public class XxlJobTrigger {
                 && group.getRegistryList()!=null && !group.getRegistryList().isEmpty()
                 && shardingParam==null) {
             for (int i = 0; i < group.getRegistryList().size(); i++) {
-                processTrigger(group, jobInfo, finalFailRetryCount, triggerType, i, group.getRegistryList().size());
+                processTrigger(group, jobInfo, finalFailRetryCount, triggerType, workflowId, i, group.getRegistryList().size());
             }
         } else {
             if (shardingParam == null) {
                 shardingParam = new int[]{0, 1};
             }
-            processTrigger(group, jobInfo, finalFailRetryCount, triggerType, shardingParam[0], shardingParam[1]);
+            processTrigger(group, jobInfo, finalFailRetryCount, triggerType, workflowId, shardingParam[0], shardingParam[1]);
         }
 
     }
@@ -108,7 +109,8 @@ public class XxlJobTrigger {
      * @param index                     sharding index
      * @param total                     sharding index
      */
-    private static void processTrigger(XxlJobGroup group, XxlJobInfo jobInfo, int finalFailRetryCount, TriggerTypeEnum triggerType, int index, int total){
+    private static void processTrigger(XxlJobGroup group, XxlJobInfo jobInfo, int finalFailRetryCount,
+                                       TriggerTypeEnum triggerType, String workflowId, int index, int total){
 
         // param
         ExecutorBlockStrategyEnum blockStrategy = ExecutorBlockStrategyEnum.match(jobInfo.getExecutorBlockStrategy(), ExecutorBlockStrategyEnum.SERIAL_EXECUTION);  // block strategy
@@ -120,12 +122,14 @@ public class XxlJobTrigger {
         jobLog.setJobGroup(jobInfo.getJobGroup());
         jobLog.setJobId(jobInfo.getId());
         jobLog.setTriggerTime(new Date());
+        jobLog.setWorkflowId(workflowId);
         XxlJobAdminConfig.getAdminConfig().getXxlJobLogDao().save(jobLog);
         logger.debug(">>>>>>>>>>> xxl-job trigger start, jobId:{}", jobLog.getId());
 
         // 2、init trigger-param
         TriggerParam triggerParam = new TriggerParam();
         triggerParam.setJobId(jobInfo.getId());
+        triggerParam.setWorkflowId(workflowId);
         triggerParam.setExecutorHandler(jobInfo.getExecutorHandler());
         triggerParam.setExecutorParams(jobInfo.getExecutorParam());
         triggerParam.setExecutorBlockStrategy(jobInfo.getExecutorBlockStrategy());

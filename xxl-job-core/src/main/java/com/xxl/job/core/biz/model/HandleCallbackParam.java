@@ -14,12 +14,22 @@ public class HandleCallbackParam implements Serializable {
     private int handleCode;
     private String handleMsg;
 
+    private String workflowId;
+
     public HandleCallbackParam(){}
     public HandleCallbackParam(long logId, long logDateTim, int handleCode, String handleMsg) {
         this.logId = logId;
         this.logDateTim = logDateTim;
         this.handleCode = handleCode;
         this.handleMsg = handleMsg;
+    }
+
+    public HandleCallbackParam(long logId, long logDateTim, int handleCode, String workflowId, String handleMsg) {
+        this.logId = logId;
+        this.logDateTim = logDateTim;
+        this.handleCode = handleCode;
+        this.handleMsg = handleMsg;
+        this.workflowId = workflowId;
     }
 
     public long getLogId() {
@@ -54,12 +64,21 @@ public class HandleCallbackParam implements Serializable {
         this.handleMsg = handleMsg;
     }
 
+    public String getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
+
     @Override
     public String toString() {
         return "HandleCallbackParam{" +
                 "logId=" + logId +
                 ", logDateTim=" + logDateTim +
                 ", handleCode=" + handleCode +
+                ", workflowId=" + workflowId +
                 ", handleMsg='" + handleMsg + '\'' +
                 '}';
     }

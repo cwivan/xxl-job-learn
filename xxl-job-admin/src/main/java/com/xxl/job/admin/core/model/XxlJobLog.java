@@ -34,6 +34,8 @@ public class XxlJobLog {
 	// alarm info
 	private int alarmStatus;
 
+    private String workflowId;
+
 	public long getId() {
 		return id;
 	}
@@ -154,4 +156,11 @@ public class XxlJobLog {
 		this.alarmStatus = alarmStatus;
 	}
 
+    public String getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
+    }
 }

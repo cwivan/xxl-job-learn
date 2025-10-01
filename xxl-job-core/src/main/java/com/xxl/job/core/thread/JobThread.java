@@ -123,6 +123,7 @@ public class JobThread extends Thread{
 							triggerParam.getJobId(),
 							triggerParam.getExecutorParams(),
 							logFileName,
+                            triggerParam.getWorkflowId(),
 							triggerParam.getBroadcastIndex(),
 							triggerParam.getBroadcastTotal());
 
@@ -211,6 +212,7 @@ public class JobThread extends Thread{
                         		triggerParam.getLogId(),
 								triggerParam.getLogDateTime(),
 								XxlJobContext.getXxlJobContext().getHandleCode(),
+								XxlJobContext.getXxlJobContext().getWorkflowId(),
 								XxlJobContext.getXxlJobContext().getHandleMsg() )
 						);
                     } else {

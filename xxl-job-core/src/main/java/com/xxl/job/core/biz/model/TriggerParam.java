@@ -9,6 +9,7 @@ public class TriggerParam implements Serializable{
     private static final long serialVersionUID = 42L;
 
     private int jobId;
+    private String workflowId;
 
     private String executorHandler;
     private String executorParams;
@@ -32,6 +33,14 @@ public class TriggerParam implements Serializable{
 
     public void setJobId(int jobId) {
         this.jobId = jobId;
+    }
+
+    public String getWorkflowId() {
+        return workflowId;
+    }
+
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
     }
 
     public String getExecutorHandler() {
@@ -127,6 +136,7 @@ public class TriggerParam implements Serializable{
     public String toString() {
         return "TriggerParam{" +
                 "jobId=" + jobId +
+                ", workflowId=" + workflowId +
                 ", executorHandler='" + executorHandler + '\'' +
                 ", executorParams='" + executorParams + '\'' +
                 ", executorBlockStrategy='" + executorBlockStrategy + '\'' +

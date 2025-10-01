@@ -86,6 +86,7 @@ public class JobTriggerPoolHelper {
                            final int failRetryCount,
                            final String executorShardingParam,
                            final String executorParam,
+                           final String workflowId,
                            final String addressList) {
 
         // choose thread pool
@@ -104,7 +105,7 @@ public class JobTriggerPoolHelper {
 
                 try {
                     // do trigger
-                    XxlJobTrigger.trigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, addressList);
+                    XxlJobTrigger.trigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, workflowId, addressList);
                 } catch (Throwable e) {
                     logger.error(e.getMessage(), e);
                 } finally {
@@ -160,7 +161,22 @@ public class JobTriggerPoolHelper {
      *          not null: cover job param
      */
     public static void trigger(int jobId, TriggerTypeEnum triggerType, int failRetryCount, String executorShardingParam, String executorParam, String addressList) {
-        helper.addTrigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, addressList);
+        trigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, null, addressList);
     }
 
+    /**
+     * @param jobId
+     * @param triggerType
+     * @param failRetryCount
+     * 			>=0: use this param
+     * 			<0: use param from job info config
+     * @param executorShardingParam
+     * @param executorParam
+     *          null: use job param
+     *          not null: cover job param
+     */
+    public static void trigger(int jobId, TriggerTypeEnum triggerType, int failRetryCount, String executorShardingParam,
+                               String executorParam, String workflowId, String addressList) {
+        helper.addTrigger(jobId, triggerType, failRetryCount, executorShardingParam, executorParam, workflowId, addressList);
+    }
 }

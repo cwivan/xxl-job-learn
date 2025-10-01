@@ -169,11 +169,11 @@ public class JobCompleteHelper {
 		if (handleCallbackParam.getHandleMsg() != null) {
 			handleMsg.append(handleCallbackParam.getHandleMsg());
 		}
-
 		// success, save log
 		log.setHandleTime(new Date());
 		log.setHandleCode(handleCallbackParam.getHandleCode());
-		log.setHandleMsg(handleMsg.toString());
+		log.setWorkflowId(handleCallbackParam.getWorkflowId());
+        log.setHandleMsg(handleMsg.toString());
 		XxlJobCompleter.updateHandleInfoAndFinish(log);
 
 		return ReturnT.SUCCESS;
