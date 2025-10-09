@@ -65,7 +65,7 @@ public class XxlJobCompleter {
 
                         // trigger child job
                         JobTriggerPoolHelper.trigger(childJobId, TriggerTypeEnum.PARENT, -1, null,
-                                xxlJobLog.getExecutorParam(), xxlJobLog.getWorkflowId(), null);
+                                null, xxlJobLog.getWorkflowId(), null);
                         ReturnT<String> triggerChildResult = ReturnT.SUCCESS;
 
                         // add msg
